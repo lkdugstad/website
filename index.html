@@ -1,11 +1,555 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <title>Hello, World!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lars Kristian Dugstad - Machine Learning Developer & App Creator</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #fff;
+            --text-primary: #333;
+            --text-secondary: #7f8c8d;
+            --accent: #3498db;
+            --accent-dark: #2980b9;
+            --header-bg: #fff;
+            --header-text: #2c3e50;
+            --footer-bg: #2c3e50;
+            --footer-text: #ecf0f1;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2c2c2c;
+            --text-primary: #f0f0f0;
+            --text-secondary: #d0d0d0;
+            --accent: #3498db;
+            --accent-dark: #2980b9;
+            --header-bg: #2c2c2c;
+            --header-text: #f0f0f0;
+            --footer-bg: #121212;
+            --footer-text: #f0f0f0;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--header-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--header-text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--header-text);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+            padding: 8px;
+        }
+        
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            background-color: var(--bg-secondary);
+            transition: background-color 0.3s;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--header-text);
+            transition: color 0.3s;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            transition: color 0.3s;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+            color: var(--header-text);
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            margin: 15px auto 0;
+            transition: background-color 0.3s;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .about-text {
+            flex: 1;
+            padding-right: 50px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: var(--text-primary);
+            transition: color 0.3s;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: box-shadow 0.3s;
+        }
+        
+        .about-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* App Portfolio Section */
+        .portfolio {
+            padding: 100px 0;
+            background-color: var(--bg-secondary);
+            transition: background-color 0.3s;
+        }
+        
+        .portfolio-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .portfolio-item {
+            width: calc(50% - 40px);
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .portfolio-image {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .portfolio-item:hover .portfolio-image img {
+            transform: scale(1.05);
+        }
+        
+        .portfolio-content {
+            padding: 30px;
+        }
+        
+        .portfolio-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--header-text);
+            transition: color 0.3s;
+        }
+        
+        .portfolio-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        
+        .app-store-link {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .app-store-link:hover {
+            background-color: var(--accent-dark);
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--bg-secondary);
+            transition: background-color 0.3s;
+        }
+        
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-content p {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: var(--text-primary);
+            transition: color 0.3s;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-primary);
+            border-radius: 50%;
+            color: var(--header-text);
+            font-size: 20px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: var(--accent);
+            color: #fff;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 30px 0;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        footer p {
+            margin: 0;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .portfolio-item {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <h1>Hello, World! 👋</h1>
-  <p>This is my first GitHub Pages site.</p>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Lars Kristian Dugstad</a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#portfolio">Apps</a></li>
+                    <li><a href="#projects">Other Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li>
+                        <button class="theme-toggle" aria-label="Toggle dark mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Lars Kristian Dugstad</h1>
+                <p>Senior Machine Learning Developer & App Creator</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Hei, I'm Lars Kristian Dugstad, a passionate software developer and machine learning engineer based in Frankfurt am Main. I am a digitial native and enthusiastic about AI and cloud development.
+                        My personal projects - from home automation with microelectronics, 3D printing and robot building to iOS apps and AI cloud solutions - reflect my deep belief that innovation is born at the intersection of curiosity and practical application.
+                        This curiosity drives me to continuously search for innovative solutions, be it by learning new programming languages, experimenting with AI in the cloud or developing smart technologies that make everyday life easier.
+                        When I’m not building something new, you’ll likely find me sailing or spending time with my dog, collecting fresh inspiration for my next ideas.</p>
+                 </div>
+                <div class="about-image">
+                    <img src="images/ProfileFoto.jpeg" alt="Professional headshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">My Apps</h2>
+            <div class="portfolio-items">
+                <!-- App 1 -->
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <img src="images/bootstheorie.png" alt="Bootstheorie App Icon">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Bootstheorie</h3>
+                        <p>A comprehensive app designed to help users learn boating theory and prepare for boating license exams. Features interactive learning materials, practice tests, and personalized study tracking to make learning maritime navigation and safety regulations engaging and effective.</p>
+                        <a href="https://apps.apple.com/en/app/bootstheorie/id6467783673" class="app-store-link">View on App Store</a>
+                    </div>
+                </div>
+                
+                <!-- App 2 -->
+                <div class="portfolio-item">
+                    <div class="portfolio-image">
+                        <img src="images/kiwiflashcards.png" alt="Kiwi Flashcards App Icon">
+                    </div>
+                    <div class="portfolio-content">
+                        <h3>Kiwi Flashcards</h3>
+                        <p>An intuitive flashcard app designed to enhance learning through spaced repetition. Perfect for students, language learners, and professionals, Kiwi Flashcards helps users efficiently memorize information with customizable decks, progress tracking, and smart learning algorithms.</p>
+                        <a href="https://apps.apple.com/en/app/kiwi-flashcards/id1643693625" class="app-store-link">View on App Store</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Projects Section -->
+    <section id="projects" class="about" style="background-color: var(--bg-secondary);">
+        <div class="container">
+            <h2 class="section-title">Other Projects</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I’m always working on new ideas and experiments at the intersection of hardware and software. Soon, I’ll be sharing some of my personal projects here—stay tuned!</p>
+                </div>
+                <div class="about-image">
+                    <img src="images/coming-soon.avif" alt="Arduino and electronics projects">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <p>If you share my interests and passion for innovation, we're bound to have a great time together! Feel free to reach out through LinkedIn or GitHub. Let's connect and explore the wonders of technology and life together.</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/lkdugstad/" class="social-link" aria-label="LinkedIn" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/lkdugstad" class="social-link" aria-label="GitHub" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="current-year">2025</span> Lars Kristian Dugstad. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Dark mode toggle functionality
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        const themeToggleIcon = themeToggleBtn.querySelector('i');
+        
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            // Update icon
+            if (newTheme === 'dark') {
+                themeToggleIcon.classList.remove('fa-moon');
+                themeToggleIcon.classList.add('fa-sun');
+            } else {
+                themeToggleIcon.classList.remove('fa-sun');
+                themeToggleIcon.classList.add('fa-moon');
+            }
+            
+            // Optional: save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Check for saved theme preference on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                
+                if (savedTheme === 'dark') {
+                    themeToggleIcon.classList.remove('fa-moon');
+                    themeToggleIcon.classList.add('fa-sun');
+                }
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
