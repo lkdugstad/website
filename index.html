@@ -80,6 +80,12 @@
             transition: color 0.3s;
         }
         
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
         .nav-links {
             display: flex;
             list-style: none;
@@ -116,6 +122,18 @@
         
         .theme-toggle:hover {
             color: var(--accent);
+        }
+        
+        /* Mobile Menu Button */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--header-text);
+            cursor: pointer;
+            font-size: 24px;
+            padding: 8px;
+            z-index: 1001;
         }
         
         /* Hero Section */
@@ -352,8 +370,52 @@
         }
         
         @media (max-width: 768px) {
+            nav {
+                position: relative;
+            }
+            
+            .nav-wrapper {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 250px;
+                height: calc(100vh - 70px);
+                background-color: var(--header-bg);
+                box-shadow: -2px 0 10px var(--shadow);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px 20px;
+                transition: right 0.3s ease-in-out;
+                overflow-y: auto;
+            }
+            
+            .nav-wrapper.active {
+                right: 0;
+            }
+            
             .nav-links {
-                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .nav-links a {
+                font-size: 18px;
+            }
+            
+            .theme-toggle {
+                margin-top: 30px;
+                font-size: 20px;
+            }
+            
+            .mobile-menu-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             
             .hero h1 {
@@ -377,17 +439,20 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo">Lars Kristian Dugstad</a>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#portfolio">Apps</a></li>
-                    <li><a href="#projects">Other Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li>
-                        <button class="theme-toggle" aria-label="Toggle dark mode">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    </li>
-                </ul>
+                <button class="mobile-menu-button" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-wrapper">
+                    <ul class="nav-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#portfolio">Apps</a></li>
+                        <li><a href="#projects">Other Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                    <button class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -411,7 +476,7 @@
                     <p>Hei, I'm Lars Kristian Dugstad, a passionate software developer and machine learning engineer based in Frankfurt am Main. I am a digitial native and enthusiastic about AI and cloud development.
                         My personal projects - from home automation with microelectronics, 3D printing and robot building to iOS apps and AI cloud solutions - reflect my deep belief that innovation is born at the intersection of curiosity and practical application.
                         This curiosity drives me to continuously search for innovative solutions, be it by learning new programming languages, experimenting with AI in the cloud or developing smart technologies that make everyday life easier.
-                        When I’m not building something new, you’ll likely find me sailing or spending time with my dog, collecting fresh inspiration for my next ideas.</p>
+                        When I'm not building something new, you'll likely find me sailing or spending time with my dog, collecting fresh inspiration for my next ideas.</p>
                  </div>
                 <div class="about-image">
                     <img src="images/ProfileFoto.jpeg" alt="Professional headshot">
@@ -458,7 +523,7 @@
             <h2 class="section-title">Other Projects</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>I’m always working on new ideas and experiments at the intersection of hardware and software. Soon, I’ll be sharing some of my personal projects here—stay tuned!</p>
+                    <p>I'm always working on new ideas and experiments at the intersection of hardware and software. Soon, I'll be sharing some of my personal projects here—stay tuned!</p>
                 </div>
                 <div class="about-image">
                     <img src="images/coming-soon.avif" alt="Arduino and electronics projects">
@@ -530,6 +595,42 @@
                     themeToggleIcon.classList.remove('fa-moon');
                     themeToggleIcon.classList.add('fa-sun');
                 }
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const navWrapper = document.querySelector('.nav-wrapper');
+        const mobileMenuIcon = mobileMenuButton.querySelector('i');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            navWrapper.classList.toggle('active');
+            
+            // Update hamburger icon
+            if (navWrapper.classList.contains('active')) {
+                mobileMenuIcon.classList.remove('fa-bars');
+                mobileMenuIcon.classList.add('fa-times');
+            } else {
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navWrapper.classList.remove('active');
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenuButton.contains(e.target) && !navWrapper.contains(e.target)) {
+                navWrapper.classList.remove('active');
+                mobileMenuIcon.classList.remove('fa-times');
+                mobileMenuIcon.classList.add('fa-bars');
             }
         });
         
